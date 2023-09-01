@@ -22,7 +22,7 @@ while True:
     light_list.append(int(non_working_lights))
 list_of_non_working_lights = light_list
 
-def left_side ():
+def left_side():
     """
     Function for calculation of the illumination of non-working lights from the left side (or beginning) of the street
     :return: dict of illumination from the left side (or beginning) of the street.
@@ -43,7 +43,7 @@ def left_side ():
         left_illum_dict[item] = 3 ** (-(x/90) ** 2)
     return left_illum_dict
 
-def right_side ():
+def right_side():
     """
     Function for calculation of the illumination of non-working lights from the right side (or the end) of the street
     :return: dict of illumination from the right side (or the end) of the street.
