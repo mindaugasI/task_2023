@@ -34,12 +34,12 @@ def left_side ():
         if left_item not in list_of_non_working_lights and left_item >= 0:
             x += displacement
         else:
-            x = 0
+            x = road_length
         left_dist_dict[item] = x
         left_illum_dict[item] = 3 ** (-(x/90) ** 2)
-        print(f'For light No. {item} the nearest light to the left is at the distance of {x} m')
-        print(f'The illumination for the non working light {item} from the left is: {3 ** (-(x/90) ** 2)}')
-    return left_dist_dict, left_illum_dict
+        # print(f'For light No. {item} the nearest light to the left is at the distance of {x} m')
+        # print(f'The illumination for the non working light {item} from the left is: {3 ** (-(x/90) ** 2)}')
+    return left_illum_dict
 
 def right_side ():
     right_dist_dict = {}
@@ -55,19 +55,48 @@ def right_side ():
         if right_item not in list_of_non_working_lights and right_item <= new_list_of_lights[-1]:
             x += displacement
         else:
-            x = 0
+            x = road_length
         right_dist_dict[item] = x
         right_illum_dict[item] = 3 ** (-(x / 90) ** 2)
-        print(f'For light No. {item} the nearest light to the right is at the distance of {x} m')
-        print(f'The illumination for the non working light {item} from the right side is: {3 ** (-(x / 90) ** 2)}')
-    return right_dist_dict, right_illum_dict
+        # print(f'For light No. {item} the nearest light to the right is at the distance of {x} m')
+        # print(f'The illumination for the non working light {item} from the right side is: {3 ** (-(x / 90) ** 2)}')
+    return right_illum_dict
+
+def merge_dictionaries(dict1, dict2):
+    merged_dictionary = {}
+
+    for key in dict1:
+        if key in dict2:
+            new_value = (dict1[key] + dict2[key])/2
+        else:
+            new_value = dict1[key]/2
+
+        merged_dictionary[key] = new_value
+
+    for key in dict2:
+        if key not in merged_dictionary:
+            merged_dictionary[key] = dict2[key]/2
+
+    return merged_dictionary
 
 a = left_side()
 b = right_side()
 
-print(a)
-print(b)
-print(len(new_list_of_lights))
-print(new_list_of_lights[-1])
-# print(new_list_of_lights)
+# print(f'The illumination from the left side: {a}')
+# print(f'The illumination from the right side: {b}')
+print('-'*100)
+result = merge_dictionaries(a, b)
+print(result)
+print('-'*100)
 
+min_illumination = min(result.values())
+print(f'The minimal illumination index: {min_illumination}')
+print('-'*100)
+min_result = [key for key in result if result[key] == min_illumination]
+print("The lights with minimal illumination are: " + str(min_result))
+print('-'*100)
+print(f'The light with the lowest index {min_result[0]} must be changed!')
+print('-'*100)
+print('-'*100)
+print(f'The minimal number of light bulbs, which is needed to be replaced \nto make cumulative illumination intencity'
+      f'at every street light non less than 1 is: {len(list_of_non_working_lights)}')
